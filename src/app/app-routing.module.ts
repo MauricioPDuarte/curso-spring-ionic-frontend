@@ -11,13 +11,13 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
-  { 
-   path: 'categorias',
-   loadChildren: () => import('./categorias/categorias.module').then(m => m.CategoriasPageModule)
+  {
+    path: 'categorias',
+    loadChildren: () => import('./categorias/categorias.module').then(m => m.CategoriasPageModule)
   },
-  { 
-    path: 'profile', 
-    loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule) 
+  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule)
   },
 ];
 
@@ -27,4 +27,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
