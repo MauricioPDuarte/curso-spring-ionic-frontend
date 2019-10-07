@@ -8,5 +8,10 @@
 </ion-header>
 
 <ion-content>
-  {{ email }}
+  <ion-avatar class="image">
+    <img [src]="cliente?.imageUrl || 'assets/imgs/avatar-blank.png'">
+  </ion-avatar>
+  <h2 class="ion-text-center">{{ cliente?.nome }}</h2>
+  <p class="ion-text-center">{{ cliente?.email }}</p>
+
 </ion-content>

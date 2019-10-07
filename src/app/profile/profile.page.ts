@@ -1,6 +1,9 @@
+import { API_CONFIG } from './../../config/api.config';
+import { ClienteService } from './../../services/domain/cliente.service';
 import { StorageService } from './../../services/storage.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { ClienteDTO } from 'src/models/cliente.dto';
 
 @Component({
   selector: 'app-profile',
@@ -10,18 +13,33 @@ import { Component, OnInit } from '@angular/core';
 export class ProfilePage implements OnInit {
 
   email: string;
+  cliente: ClienteDTO;
 
   constructor(
     private router: Router,
     private storage: StorageService,
+    private clienteService: ClienteService
 
   ) { }
 
   ngOnInit() {
     let localUser = this.storage.getLocalUser();
     if(localUser && localUser.email) {
-      this.email = localUser.email;
+      this.clienteService.findByEmail(localUser.email)
+        .subscribe(response => {
+          this.cliente = response;
+          this.getImageIfExists();
+        },
+        error => {});
     }
+  }
+
+  getImageIfExists() {
+    this.clienteService.getImageFromBucket(this.cliente.id)
+      .subscribe(response => {
+        this.cliente.imageUrl = `${API_CONFIG.bucketBaseUrl}/cp${this.cliente.id}.jpg`
+      },
+      error => {});
   }
 
 }
