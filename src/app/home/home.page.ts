@@ -12,11 +12,11 @@ export class HomePage {
   constructor(private router: Router, private menu: MenuController) {}
 
   ionViewWillEnter() {
-    this.menu.swipeGesture(false, 'menuApp');
+    this.menu.enable(false, 'menuApp');
   }
 
   ionViewDidLeave() {
-    this.menu.swipeGesture(true, 'menuApp')
+    this.menu.enable(true, 'menuApp')
   }
 
 
