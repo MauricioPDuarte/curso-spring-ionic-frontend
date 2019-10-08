@@ -23,13 +23,18 @@ const routes: Routes = [
     path: 'signup',
     loadChildren: () => import('./signup/signup.module').then(m => m.SignupPageModule)
   },
-  { 
-    path: 'produtos/:id', 
-    loadChildren: () => import('./produtos/produtos.module').then(m => m.ProdutosPageModule) 
+  {
+    path: 'produtos/:id',
+    loadChildren: () => import('./produtos/produtos.module').then(m => m.ProdutosPageModule)
   },
-  { 
+  {
     path: 'produto-detail/:id',
-     loadChildren: './produto-detail/produto-detail.module#ProdutoDetailPageModule' },
+    loadChildren: './produto-detail/produto-detail.module#ProdutoDetailPageModule'
+  },
+  {
+    path: 'cart',
+    loadChildren: './cart/cart.module#CartPageModule'
+  },
 ];
 
 @NgModule({
