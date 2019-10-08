@@ -1,10 +1,14 @@
+import { async } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { ClienteService } from './../../services/domain/cliente.service';
 import { EstadoDTO } from './../../models/estado.dto';
 import { EstadoService } from './../../services/domain/estado.service';
 import { CidadeService } from './../../services/domain/cidade.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CidadeDTO } from 'src/models/cidade.dto';
-import { MenuController } from '@ionic/angular';
+import { MenuController, AlertController } from '@ionic/angular';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-signup',
@@ -22,6 +26,9 @@ export class SignupPage implements OnInit {
     private cidadeService: CidadeService,
     private estadoService: EstadoService,
     private menu: MenuController,
+    private clienteService: ClienteService,
+    private alertCtrl: AlertController,
+    private location: Location,
   ) {
     this.formGroup = this.formBuilder.group({
       nome: ['Joaquim', [Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
@@ -55,7 +62,11 @@ export class SignupPage implements OnInit {
   }
 
   signupUser(){
-    console.log("Enviou o form");
+    this.clienteService.insert(this.formGroup.value)
+      .subscribe(response => {
+        this.showInsertOk();
+      },
+      error => {});
   }
 
   updateCidades(){
@@ -73,5 +84,22 @@ export class SignupPage implements OnInit {
     this.menu.enable(false);
   }
 
+  async showInsertOk(){
+    const alert = await this.alertCtrl.create({
+      header: 'Sucesso!',
+      message: 'Cadastro efetuado com sucesso',
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+            this.location.back();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 
 }
