@@ -30,6 +30,16 @@ export class HomePage {
     this.menu.enable(true, 'menuApp')
   }
 
+  ionViewDidEnter() {
+    this.auth.refreshToken()
+    .subscribe(response => {
+      this.auth.successfulLogin(response.headers.get('Authorization'));
+      this.router.navigate(['/categorias']);
+    },
+    error => {});
+  }
+
+
 
   login(){
     this.auth.authenticate(this.creds)
