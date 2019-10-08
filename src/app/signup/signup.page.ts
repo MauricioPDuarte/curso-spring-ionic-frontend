@@ -11,7 +11,6 @@ import { CidadeDTO } from 'src/models/cidade.dto';
   styleUrls: ['./signup.page.scss'],
 })
 export class SignupPage implements OnInit {
-
   formGroup: FormGroup;
 
   estados: EstadoDTO[];
@@ -41,11 +40,13 @@ export class SignupPage implements OnInit {
     })
    }
 
+
   ngOnInit() {
     this.estadoService.findAll()
       .subscribe(response => {
         this.estados = response;
         this.formGroup.controls.estadoId.setValue(this.estados[0].id);
+        console.log('Estado: ' + this.formGroup.value.estadoId);
         this.updateCidades();
       },
       error => {});
@@ -57,6 +58,7 @@ export class SignupPage implements OnInit {
 
   updateCidades(){
     let estado_id = this.formGroup.value.estadoId;
+    console.log('Estado (UpdateCidades): ' + estado_id);
     this.cidadeService.findAll(estado_id)
       .subscribe(response => {
         this.cidades = response;
