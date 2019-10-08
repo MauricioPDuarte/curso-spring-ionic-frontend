@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/categorias"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Produtos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <a *ngFor="let item of items" href="#">
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <img [src]="item.imageUrl || 'assets/imgs/prod.jpg'">
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{ item.nome }}</h2>
+          <p>{{ item.preco | currency }}</p>
+        </ion-label>
+      </ion-item>
+    </a>
+  </ion-list>
+
+</ion-content>

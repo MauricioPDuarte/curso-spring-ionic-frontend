@@ -35,4 +35,8 @@ export class CategoriasPage implements OnInit {
       error => {});
   }
 
+  showProdutos(){
+    this.router.navigate(['/produtos']);
+  }
+
 }
