@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CategoriaService } from './../../services/domain/categoria.service';
 import { Component, OnInit } from '@angular/core';
 import { CategoriaDTO } from 'src/models/categoria.dto';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-categorias',
@@ -18,9 +19,11 @@ export class CategoriasPage implements OnInit {
   constructor(
     private categoriaService: CategoriaService,
     private router: Router,
+    private menu: MenuController,
     ) { }
 
   ngOnInit() {
+    this.menu.enable(true);
   }
 
   ionViewWillEnter(){

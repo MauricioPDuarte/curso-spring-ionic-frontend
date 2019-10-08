@@ -23,11 +23,7 @@ export class HomePage {
     ) {}
 
   ionViewWillEnter() {
-    this.menu.enable(false, 'menuApp');
-  }
-
-  ionViewDidLeave() {
-    this.menu.enable(true, 'menuApp')
+    this.menu.enable(false);
   }
 
   ionViewDidEnter() {

@@ -4,6 +4,7 @@ import { CidadeService } from './../../services/domain/cidade.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CidadeDTO } from 'src/models/cidade.dto';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-signup',
@@ -20,6 +21,7 @@ export class SignupPage implements OnInit {
     private formBuilder: FormBuilder,
     private cidadeService: CidadeService,
     private estadoService: EstadoService,
+    private menu: MenuController,
   ) {
     this.formGroup = this.formBuilder.group({
       nome: ['Joaquim', [Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
@@ -66,5 +68,10 @@ export class SignupPage implements OnInit {
       },
       error => {});
   }
+
+  ionViewWillEnter() {
+    this.menu.enable(false);
+  }
+
 
 }
