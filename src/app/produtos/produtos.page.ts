@@ -2,7 +2,7 @@ import { API_CONFIG } from './../../config/api.config';
 import { ProdutoService } from './../../services/domain/produto.service';
 import { ProdutoDTO } from './../../models/produto.dto';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-produtos',
@@ -16,6 +16,7 @@ export class ProdutosPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private produtoService: ProdutoService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -39,6 +40,10 @@ export class ProdutosPage implements OnInit {
         },
         error => {});
     }
+  }
+
+  showDetail(){
+    this.router.navigate(['/produto-detail'])
   }
 
 }
