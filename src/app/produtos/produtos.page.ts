@@ -1,3 +1,4 @@
+import { API_CONFIG } from './../../config/api.config';
 import { ProdutoService } from './../../services/domain/produto.service';
 import { ProdutoDTO } from './../../models/produto.dto';
 import { Component, OnInit } from '@angular/core';
@@ -15,7 +16,7 @@ export class ProdutosPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private produtoService: ProdutoService,
-    ) { }
+  ) { }
 
   ngOnInit() {
 
@@ -24,8 +25,20 @@ export class ProdutosPage implements OnInit {
     this.produtoService.findByCategoria(id.toString())
       .subscribe(response => {
         this.items = response['content'];
+        this.loadImageUrls();
       },
-      error => {});
+        error => { });
+  }
+
+  loadImageUrls() {
+    for (var i=0; i<this.items.length; i++) {
+      let item = this.items[i];
+      this.produtoService.getSmallImageFromBucket(item.id)
+        .subscribe(response => {
+          item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${item.id}-small.jpg`
+        },
+        error => {});
+    }
   }
 
 }
