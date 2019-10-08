@@ -2,7 +2,7 @@ import { AuthService } from './../../services/auth.service';
 import { CredenciaisDTO } from './../../models/credenciais.dto';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { MenuController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +19,8 @@ export class HomePage {
   constructor(
     private router: Router,
     private menu: MenuController,
-    private auth: AuthService
+    private auth: AuthService,
+    private navCtrl: NavController
     ) {}
 
   ionViewWillEnter() {
@@ -48,6 +49,11 @@ export class HomePage {
       this.router.navigate(['/categorias']);
     },
     error => {});
+  }
+
+  signup(){
+    //this.router.navigate(['/signup']);
+    this.navCtrl.navigateForward(['/signup']);
   }
 
 
