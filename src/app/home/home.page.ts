@@ -20,7 +20,6 @@ export class HomePage {
     private router: Router,
     private menu: MenuController,
     private auth: AuthService,
-    private navCtrl: NavController
     ) {}
 
   ionViewWillEnter() {
@@ -52,8 +51,7 @@ export class HomePage {
   }
 
   signup(){
-    //this.router.navigate(['/signup']);
-    this.navCtrl.navigateForward(['/signup']);
+    this.router.navigate(['/signup']);
   }
 
 
