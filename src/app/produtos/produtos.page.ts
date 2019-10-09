@@ -2,9 +2,9 @@ import { async } from '@angular/core/testing';
 import { API_CONFIG } from './../../config/api.config';
 import { ProdutoService } from './../../services/domain/produto.service';
 import { ProdutoDTO } from './../../models/produto.dto';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, IonInfiniteScroll } from '@ionic/angular';
 
 @Component({
   selector: 'app-produtos',
@@ -13,9 +13,13 @@ import { LoadingController } from '@ionic/angular';
 })
 export class ProdutosPage implements OnInit {
 
-  items: ProdutoDTO[];
+  items: ProdutoDTO[] = [];
   isLoading = false;
   id: number;
+  page: number = 0;
+  checkComplete: boolean = false;
+
+  @ViewChild(IonInfiniteScroll, null) infiniteScroll: IonInfiniteScroll;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,11 +30,11 @@ export class ProdutosPage implements OnInit {
 
   ngOnInit() {
     this.id = +this.route.snapshot.paramMap.get('id');
-    this.loadData();
+    this.loadDataProducts();
   }
 
-  loadImageUrls() {
-    for (var i = 0; i < this.items.length; i++) {
+  loadImageUrls(start: number, end: number) {
+    for (var i = start; i<=end; i++) {
       let item = this.items[i];
       this.produtoService.getSmallImageFromBucket(item.id)
         .subscribe(response => {
@@ -40,13 +44,18 @@ export class ProdutosPage implements OnInit {
     }
   }
 
-  loadData(){
+  loadDataProducts(){
     this.presentLoading();
-    this.produtoService.findByCategoria(this.id.toString())
+    this.produtoService.findByCategoria(this.id.toString(), this.page, 10)
       .subscribe(response => {
-        this.items = response['content'];
+        let start = this.items.length;
+        this.items = this.items.concat(response['content']);
+        let end = this.items.length - 1;
         this.dismiss();
-        this.loadImageUrls();
+        this.loadImageUrls(start, end);
+        if(response["last"] == true){
+          this.checkComplete = true;
+        }
       },
         error => {
           this.dismiss();
@@ -76,10 +85,31 @@ export class ProdutosPage implements OnInit {
   }
 
   doRefresh(event) {
-    this.loadData();
+    this.page = 0;
+    this.items = [];
+    this.checkComplete = false;
+    this.loadDataProducts();
     setTimeout(() => {
       event.target.complete();
     }, 1000);
+  }
+
+  loadData(event) {
+    if(!this.checkComplete){
+      this.page++;
+      this.loadDataProducts();
+    }
+    setTimeout(() => {
+      event.target.complete();
+
+      if (this.checkComplete) {
+        event.target.disabled = true;
+      }
+    }, 2000);
+  }
+
+  toggleInfiniteScroll() {
+    this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
   }
 
 }
