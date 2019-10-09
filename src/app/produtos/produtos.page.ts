@@ -14,8 +14,8 @@ import { LoadingController } from '@ionic/angular';
 export class ProdutosPage implements OnInit {
 
   items: ProdutoDTO[];
-
   isLoading = false;
+  id: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,19 +25,8 @@ export class ProdutosPage implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    const id = +this.route.snapshot.paramMap.get('id');
-
-    this.presentLoading();
-    this.produtoService.findByCategoria(id.toString())
-      .subscribe(response => {
-        this.items = response['content'];
-        this.dismiss();
-        this.loadImageUrls();
-      },
-        error => {
-          this.dismiss();
-        });
+    this.id = +this.route.snapshot.paramMap.get('id');
+    this.loadData();
   }
 
   loadImageUrls() {
@@ -49,6 +38,19 @@ export class ProdutosPage implements OnInit {
         },
           error => { });
     }
+  }
+
+  loadData(){
+    this.presentLoading();
+    this.produtoService.findByCategoria(this.id.toString())
+      .subscribe(response => {
+        this.items = response['content'];
+        this.dismiss();
+        this.loadImageUrls();
+      },
+        error => {
+          this.dismiss();
+        });
   }
 
   showDetail(produto_id) {
@@ -73,5 +75,11 @@ export class ProdutosPage implements OnInit {
     return await this.loadCtrl.dismiss();
   }
 
+  doRefresh(event) {
+    this.loadData();
+    setTimeout(() => {
+      event.target.complete();
+    }, 1000);
+  }
 
 }
