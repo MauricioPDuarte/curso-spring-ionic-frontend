@@ -19,6 +19,7 @@ export class OrderConfirmationPage implements OnInit {
   cartItems: CartItem[];
   cliente: ClienteDTO;
   endereco: EnderecoDTO
+  codpedido: string;
 
   constructor(
     private router: Router,
@@ -28,7 +29,7 @@ export class OrderConfirmationPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(this.router.getCurrentNavigation().extras.state){
+    if (this.router.getCurrentNavigation().extras.state) {
       this.pedido = this.router.getCurrentNavigation().extras.state.pedido;
     }
     this.cartItems = this.cartService.getCart().items;
@@ -38,35 +39,44 @@ export class OrderConfirmationPage implements OnInit {
         this.cliente = response as ClienteDTO;
         this.endereco = this.findEndereco(this.pedido.enderecoDeEntrega.id, response['enderecos']);
       },
-      error => {
-        this.router.navigate(['/home']);
-      });
+        error => {
+          this.router.navigate(['/home']);
+        });
   }
 
-  private findEndereco(id: string, list: EnderecoDTO[]): EnderecoDTO{
+  private findEndereco(id: string, list: EnderecoDTO[]): EnderecoDTO {
     let position = list.findIndex(x => x.id == id);
     return list[position];
   }
 
-  total(){
+  total() {
     return this.cartService.total();
   }
 
-  checkout(){
+  checkout() {
     this.pedidoService.insert(this.pedido)
       .subscribe(response => {
         this.cartService.createOrClearCart();
-        console.log(response.headers.get('location'));
+        this.codpedido = this.extractId(response.headers.get('location'));
       },
-      error => {
-        if(error.status == 403){
-          this.router.navigate(['/home']);
-        }
-      })
+        error => {
+          if (error.status == 403) {
+            this.router.navigate(['/home']);
+          }
+        })
   }
 
-  back(){
+  back() {
     this.router.navigate(['/cart']);
+  }
+
+  home() {
+    this.router.navigate(['/categorias']);
+  }
+
+  private extractId(location: string): string {
+    let position = location.lastIndexOf('/');
+    return location.substring(position + 1, location.length);
   }
 
 }
