@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { ProdutoDTO } from './../../models/produto.dto';
 import { CartService } from './../../services/domain/cart.service';
 import { ProdutoService } from './../../services/domain/produto.service';
 import { CartItem } from './../../models/cart-item';
@@ -16,6 +18,7 @@ export class CartPage implements OnInit {
   constructor(
     private cartService: CartService,
     private produtoService: ProdutoService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -33,6 +36,26 @@ export class CartPage implements OnInit {
         },
         error => {});
     }
+  }
+
+  removeItem(produto: ProdutoDTO){
+    this.items = this.cartService.removeProduto(produto).items;
+  }
+
+  increaseQuantity(produto: ProdutoDTO){
+    this.items = this.cartService.increaseQuantity(produto).items;
+  }
+
+  decreaseQuantity(produto: ProdutoDTO){
+    this.items = this.cartService.decreaseQuantity(produto).items;
+  }
+
+  total(): number{
+    return this.cartService.total();
+  }
+
+  goOn(){
+    this.router.navigate(['/categorias']);
   }
 
 }
