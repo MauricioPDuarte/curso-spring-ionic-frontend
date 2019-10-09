@@ -43,6 +43,9 @@ const routes: Routes = [
     path: 'payment',
     loadChildren: './payment/payment.module#PaymentPageModule'
   },
+  { path: 'order-confirmation',
+   loadChildren: './order-confirmation/order-confirmation.module#OrderConfirmationPageModule'
+   },
 ];
 
 @NgModule({

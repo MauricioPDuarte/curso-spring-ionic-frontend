@@ -35,6 +35,6 @@ export class PaymentPage implements OnInit {
 
   nextPage(){
     this.pedido.pagamento = this.formGroup.value;
-    console.log(this.pedido);
+    this.router.navigate(['/order-confirmation'], {state: {pedido: this.pedido}});
   }
 }
