@@ -28,6 +28,11 @@ export class AppComponent {
       url: '',
       icon: 'close'
     },
+    {
+      title: 'Carrinho',
+      url: '/cart',
+      icon: 'cart'
+    },
   ];
 
   constructor(
