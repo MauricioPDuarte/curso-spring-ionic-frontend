@@ -35,7 +35,14 @@ const routes: Routes = [
     path: 'cart',
     loadChildren: './cart/cart.module#CartPageModule'
   },
-  { path: 'pick-address', loadChildren: './pick-address/pick-address.module#PickAddressPageModule' },
+  {
+    path: 'pick-address',
+    loadChildren: './pick-address/pick-address.module#PickAddressPageModule'
+  },
+  {
+    path: 'payment',
+    loadChildren: './payment/payment.module#PaymentPageModule'
+  },
 ];
 
 @NgModule({
