@@ -70,7 +70,7 @@ export class ProfilePage implements OnInit {
       this.picture = 'data:image/png;base64,' + imageData;
       this.cameraon = false;
     }, (err) => {
-      
+      this.cameraon = false;
     });
   }
 
@@ -89,7 +89,7 @@ export class ProfilePage implements OnInit {
       this.picture = 'data:image/png;base64,' + imageData;
       this.cameraon = false;
     }, (err) => {
-      
+      this.cameraon = false;
     });
   }
 

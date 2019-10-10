@@ -31,19 +31,19 @@ export class SignupPage implements OnInit {
     private location: Location,
   ) {
     this.formGroup = this.formBuilder.group({
-      nome: ['Joaquim', [Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
-      email: ['joaqui@gmail.com', [Validators.required, Validators.email]],
+      nome: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
+      email: ['', [Validators.required, Validators.email]],
       tipo: ['1', [Validators.required]],
-      cpfOuCnpj: ['93615102070', [Validators.required, Validators.minLength(11), Validators.maxLength(14)]],
-      senha: ['123', [Validators.required]],
-      cep: ['10828333', [Validators.required]],
-      logradouro: ['Rua Via', [Validators.required]],
-      numero: ['25', [Validators.required]],
-      complemento: ['Apto 3', []],
-      bairro: ['Copacabana', []],
+      cpfOuCnpj: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(14)]],
+      senha: ['', [Validators.required]],
+      cep: ['', [Validators.required]],
+      logradouro: ['', [Validators.required]],
+      numero: ['', [Validators.required]],
+      complemento: ['', []],
+      bairro: ['', []],
       estadoId: [null, [Validators.required]],
       cidadeId: [null, [Validators.required]],
-      telefone1: ['977261827', [Validators.required]],
+      telefone1: ['', [Validators.required]],
       telefone2: ['', []],
       telefone3: ['', []]
     })
@@ -77,7 +77,9 @@ export class SignupPage implements OnInit {
         this.cidades = response;
         this.formGroup.controls.cidadeId.setValue(null);
       },
-      error => {});
+      error => {
+        
+      });
   }
 
   ionViewWillEnter() {
