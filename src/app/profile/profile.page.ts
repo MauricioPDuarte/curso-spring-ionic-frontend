@@ -27,6 +27,10 @@ export class ProfilePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.loadData();
+  }
+
+  loadData() {
     let localUser = this.storage.getLocalUser();
     if (localUser && localUser.email) {
       this.clienteService.findByEmail(localUser.email)
@@ -60,7 +64,7 @@ export class ProfilePage implements OnInit {
       encodingType: this.camera.EncodingType.PNG,
       mediaType: this.camera.MediaType.PICTURE
     }
-
+    
     this.camera.getPicture(options).then((imageData) => {
 
       this.picture = 'data:image/png;base64,' + imageData;
@@ -68,5 +72,18 @@ export class ProfilePage implements OnInit {
     }, (err) => {
       
     });
+  }
+
+  sendPicture() {
+    this.clienteService.uploadPicture(this.picture)
+      .subscribe(response => {
+        this.picture = null;
+        this.loadData();
+      },
+      error => {});
+  }
+
+  cancel(){
+    this.picture = null;
   }
 }
